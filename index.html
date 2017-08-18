@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>お色変換</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+</head>
+
+<body>
+<h1>お色変換</h1>
+<p>iOSの0～1指定の色をAndroidやWebの0x00～0xFFの形式に変換します.</p>
+<h2>ios</h2>
+<p>R<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="r" /></p>
+<p>G<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="g" /></p>
+<p>B<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="b" /></p>
+<p>A<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="a" /></p>
+<h2>Android</h2>
+<p>ARGB<input readonly="true" id="argb"></p>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+        <script>	
+		var onIOsChangeListener = function(){
+			var a = toAndroid($('#a')[0].value);
+			var r = toAndroid($('#r')[0].value);
+		    var g = toAndroid($('#g')[0].value);
+		    var b = toAndroid($('#b')[0].value);
+			if($('#a')[0].value){
+				$('#argb')[0].value = "#"+a+r+g+b;
+			}else{
+				$('#argb')[0].value = "#"+r+g+b;
+			}
+		}; 
+		$('#a').keyup(onIOsChangeListener);
+		$('#r').keyup(onIOsChangeListener);
+		$('#g').keyup(onIOsChangeListener);
+		$('#b').keyup(onIOsChangeListener);
+		
+		$('#a').mouseup(onIOsChangeListener);
+		$('#r').mouseup(onIOsChangeListener);
+		$('#g').mouseup(onIOsChangeListener);
+		$('#b').mouseup(onIOsChangeListener);
+	    function toAndroid( iosValue) {
+			if(!iosValue){
+				return "00";
+			}
+			if(iosValue>1){
+				return "ff";
+			}
+			var iosValue256 = Math.round(iosValue * 255);
+			var ox = iosValue256.toString(16);
+			if(iosValue256<16){
+				return "0"+ox;
+			}
+			return ox;
+		}
+		</script>
+        <bottom>Powerd by Firespeed </bottom>
+</body>
+</html>
+
