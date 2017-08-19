@@ -7,52 +7,59 @@
 </head>
 
 <body>
-<h1>お色変換</h1>
-<p>iOSの0～1指定の色をAndroidやWebの0x00～0xFFの形式に変換します.</p>
-<h2>ios</h2>
-<p>R<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="r" /></p>
-<p>G<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="g" /></p>
-<p>B<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="b" /></p>
-<p>A<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="a" /></p>
-<h2>Android</h2>
-<p>ARGB<input readonly="true" id="argb"></p>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
-        <script>
-		var onIOsChangeListener = function(){
-			var a = toAndroid($('#a')[0].value);
-			var r = toAndroid($('#r')[0].value);
-		    var g = toAndroid($('#g')[0].value);
-		    var b = toAndroid($('#b')[0].value);
-			if($('#a')[0].value){
-				$('#argb')[0].value = "#"+a+r+g+b;
-			}else{
-				$('#argb')[0].value = "#"+r+g+b;
-			}
-		};
-		$('#a').keyup(onIOsChangeListener);
-		$('#r').keyup(onIOsChangeListener);
-		$('#g').keyup(onIOsChangeListener);
-		$('#b').keyup(onIOsChangeListener);
+  <section id="container"></section>
+  <script id="template" type="text/ractive">
+    <h1>お色変換</h1>
+    <p>iOSの0～1指定の色をAndroidやWebの0x00～0xFFの形式に変換します.</p>
+    <h2>ios</h2>
+    <p>R<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="r" value="{{r}}"/></p>
+    <p>G<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="g" value="{{g}}"/></p>
+    <p>B<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="b" value="{{b}}"/></p>
+    <p>A<input style="width: 7em" type="number" max="1" min="0" step="0.001" id="a" value="{{a}}"/></p>
+    <h2>Android</h2>
+    <p>ARGB<input readonly="true" id="argb" value="{{@this.calc(a,r,g,b)}}" twoway="false"></p>
+  <bottom>Powerd by <a href="https://github.com/kenz/colorChangerIOStoAndroid">GitHub</a></bottom>
+  </script>
 
-		$('#a').mouseup(onIOsChangeListener);
-		$('#r').mouseup(onIOsChangeListener);
-		$('#g').mouseup(onIOsChangeListener);
-		$('#b').mouseup(onIOsChangeListener);
-	    function toAndroid( iosValue) {
-			if(!iosValue){
-				return "00";
-			}
-			if(iosValue>1){
-				return "ff";
-			}
-			var iosValue256 = Math.round(iosValue * 255);
-			var ox = iosValue256.toString(16);
-			if(iosValue256<16){
-				return "0"+ox;
-			}
-			return ox;
-		}
-		</script>
-        <bottom>Powerd by <a href="https://github.com/kenz/colorChangerIOStoAndroid">GitHub</a></bottom>
+  <script src="https://cdn.jsdelivr.net/npm/ractive"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+  <script type="text/javascript">
+    function toAndroid(iosValue) {
+      if (!iosValue) {
+        return "00";
+      }
+      if (iosValue>1) {
+        return "ff";
+      }
+      var iosValue256 = Math.round(iosValue * 255);
+      var ox = iosValue256.toString(16);
+      if (iosValue256<16) {
+        return "0"+ox;
+      }
+      return ox;
+    }
+
+    var r = new Ractive({
+      el : '#container',
+      template : '#template',
+      data : {
+        a : 0,
+        r : 0,
+        g : 0,
+        b : 0
+      },
+      calc : function(a,r,g,b) {
+        var a2 = toAndroid(a);
+        var r2 = toAndroid(r);
+        var g2 = toAndroid(g);
+        var b2 = toAndroid(b);
+        if (a === undefined) {
+          return '#' + r2 + g2 + b2;
+        } else {
+          return '#' + a2 + r2 + g2 + b2;
+        }                          
+      }
+    });
+  </script>
 </body>
 </html>
