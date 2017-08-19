@@ -17,7 +17,7 @@
 <h2>Android</h2>
 <p>ARGB<input readonly="true" id="argb"></p>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
-        <script>	
+        <script>
 		var onIOsChangeListener = function(){
 			var a = toAndroid($('#a')[0].value);
 			var r = toAndroid($('#r')[0].value);
@@ -28,12 +28,12 @@
 			}else{
 				$('#argb')[0].value = "#"+r+g+b;
 			}
-		}; 
+		};
 		$('#a').keyup(onIOsChangeListener);
 		$('#r').keyup(onIOsChangeListener);
 		$('#g').keyup(onIOsChangeListener);
 		$('#b').keyup(onIOsChangeListener);
-		
+
 		$('#a').mouseup(onIOsChangeListener);
 		$('#r').mouseup(onIOsChangeListener);
 		$('#g').mouseup(onIOsChangeListener);
@@ -53,7 +53,6 @@
 			return ox;
 		}
 		</script>
-        <bottom>Powerd by <a href="https://firespeed.org">Firespeed </a></bottom>
+        <bottom>Powerd by <a href="https://github.com/kenz/colorChangerIOStoAndroid">GitHub</a></bottom>
 </body>
 </html>
-
